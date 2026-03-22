@@ -5,6 +5,7 @@ import { z } from "zod"
 
 const app = new Hono()
 
+const MAX_PHRASE_LENGTH = 30
 const MAX_LENGTH = 10000
 
 // パラメータのバリデーションスキーマ
@@ -12,7 +13,9 @@ const paramsSchema = z.object({
   phrase: z
     .string()
     .min(1, { message: "phrase は空にできません" })
-    .max(30, { message: "phrase は30文字以下にしてください" }),
+    .max(MAX_PHRASE_LENGTH, {
+      message: `phrase は${MAX_PHRASE_LENGTH}文字以下にしてください`,
+    }),
   length: z
     .string()
     .regex(/^[1-9]\d*$/, { message: "length は1以上の整数にしてください" })
@@ -37,12 +40,6 @@ app.get(
   }),
   (c) => {
     const { phrase, length } = c.req.valid("param")
-    if (phrase.length === 0) {
-      throw new HTTPException(400, {
-        message: "phrase は空にできません",
-        res: c.text("phrase は空にできません", 400),
-      })
-    }
     const repeatNeeded = Math.ceil(length / phrase.length)
     const result = phrase.repeat(repeatNeeded).slice(0, length)
     return c.text(result)
