@@ -11,7 +11,7 @@
   "linter": {
     "enabled": true
   },
-  "organizeImports": {
+  "assist": {
     "enabled": true
   },
   "javascript": {
