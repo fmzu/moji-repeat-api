@@ -3,6 +3,6 @@ import { repeatRoute } from "./routes/repeat"
 
 const app = new Hono()
 
-app.route("/", repeatRoute)
+app.route("/repeat", repeatRoute)
 
 export default app

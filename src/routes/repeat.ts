@@ -10,7 +10,7 @@ const repeatRoute = new Hono()
  * 渡された文字列を指定文字数繰り返して返す
  */
 repeatRoute.get(
-  "/repeat/:phrase/:length",
+  "/:phrase/:length",
   zValidator("param", paramsSchema, (result, c) => {
     if (!result.success) {
       handleValidationError(result, c)
